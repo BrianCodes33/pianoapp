@@ -1,0 +1,119 @@
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Boogaloo', cursive;
+  flex-direction: column;
+}
+
+h1 {
+  animation: 2s ease-in-out slideIn;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-400%)
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.piano {
+  width: 400px;
+  height: 400px;
+  margin: 0 auto;
+  background: darken(white, 10);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 5px 10px 2px black;
+  display: flex;
+}
+
+.user-controls {
+  width: 450px;
+  height: 100px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin: 0 auto;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+button {
+  width: 130px;
+  height: 50px;
+  font-size: 1em;
+  background-color: rgb(245,245,245);
+  border: 0.175em solid gainsboro;
+  text-transform: uppercase;
+  padding: 4px;
+  border-radius: 0.3em;
+  cursor: pointer;
+  &:hover {
+  background: lightseagreen;
+  color: #fff;
+  transition: 0.7s ease-in-out;
+  }
+}
+
+.strict-mode > button {
+  &:hover {
+  background: crimson;
+  }
+}
+
+.scoreboard {
+  width: 60px;
+  background: #000;
+  // text-align: center;
+  border-radius: 50%;
+  height: 60px;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scoreboard > span {
+  color: #fff;
+  font-size: 2em;
+  margin: 5px;
+}
+
+.key {
+  width: 100px;
+  height: 100px;
+  min-height: 100%;
+  border: 1px solid black;
+  position: relative;
+  &:after {
+  width: 50px;
+  height: 170px;
+  margin-left: 75px;
+  overflow: hidden;
+  background: #000;
+  content: '';
+  position: absolute;
+  }
+}
+
+#b {
+  width: 100px;
+  height: 100px;
+  min-height: 100%;
+  border: 1px solid black;
+  position: relative;
+  &:after {
+    opacity: 0;
+  }
+}
