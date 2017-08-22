@@ -88,6 +88,7 @@ h1 {
   content: '';
   position: absolute;
   z-index: 3;
+  box-shadow: inset 1px 1px 7px 1px #777;
   }
 }
 
@@ -108,4 +109,12 @@ h1 {
   &:after {
     opacity: 0;
   }
+}
+
+button {
+  outline: 0;
+  width: 100px;
+  height: 40px;
+  border: 0;
+  cursor: pointer;
 }

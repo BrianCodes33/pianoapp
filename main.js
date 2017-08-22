@@ -12,30 +12,32 @@ function gameInit() {
       $('.on-off button').text('On');
       $('.on-off button').css('background', 'lightseagreen');
       playSequence();
-
     } else {
       $('.on-off button').text('Off');
       $('.on-off button').css({
-        background : 'none',
+        background: 'yellow',
         color: 'black'
       });
-
+    }
+  })
+  $('.strict-mode button').click(function() {
+    let strictMode = $('.strict-mode').text().trim();
+    console.log(strictMode);
+    if (strictMode === 'Strict Mode') {
+      $('.strict-mode button').text('Easy Mode');
+      $('.strict-mode button').css('background', 'lightseagreen');
+    } else {
+      $('.strict-mode button').text('Strict Mode');
+      $('.strict-mode button').css({
+        background: 'yellow',
+        color: 'black'
+      });
     }
   })
 }
 gameInit();
 
 var notePlaying = false;
-//
-// $("audio").on("ended", function(){
-//     var audio = $(this).next("audio");
-//     if (audio.length) {
-//         audio.get(0).play();
-//     } else {
-//         notePlaying = false;
-//     }
-// });
-
 
 function playSequence() {
   if (!notePlaying) {
@@ -54,7 +56,7 @@ function compareGuess(note) {
   console.log('user guessed', note);
   guessSequence.push(note);
   for (let i = 0; i < sequence.length; i++) {
-    if(sequence[i] === guessSequence[i]) {
+    if (sequence[i] === guessSequence[i]) {
       return true;
     } else {
       return false;

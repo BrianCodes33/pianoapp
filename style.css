@@ -72,7 +72,8 @@ h1 {
     background: #000;
     content: '';
     position: absolute;
-    z-index: 3; }
+    z-index: 3;
+    box-shadow: inset 1px 1px 7px 1px #777; }
 
 .key > p {
   position: absolute;
@@ -88,5 +89,12 @@ h1 {
   position: relative; }
   #b:after {
     opacity: 0; }
+
+button {
+  outline: 0;
+  width: 100px;
+  height: 40px;
+  border: 0;
+  cursor: pointer; }
 
 /*# sourceMappingURL=style.css.map */
