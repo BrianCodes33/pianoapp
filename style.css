@@ -18,7 +18,6 @@ h1 {
   width: 400px;
   height: 400px;
   margin: 0 auto;
-  background: #e6e6e6;
   position: relative;
   overflow: hidden;
   box-shadow: 0 5px 10px 2px black;
@@ -37,21 +36,6 @@ h1 {
   display: flex;
   justify-content: space-around;
   align-items: center; }
-
-button {
-  width: 130px;
-  height: 50px;
-  font-size: 1em;
-  background-color: whitesmoke;
-  border: 0.175em solid gainsboro;
-  text-transform: uppercase;
-  padding: 4px;
-  border-radius: 0.3em;
-  cursor: pointer; }
-  button:hover {
-    background: lightseagreen;
-    color: #fff;
-    transition: 0.7s ease-in-out; }
 
 .strict-mode > button:hover {
   background: crimson; }
@@ -87,7 +71,14 @@ button {
     overflow: hidden;
     background: #000;
     content: '';
-    position: absolute; }
+    position: absolute;
+    z-index: 3; }
+
+.key > p {
+  position: absolute;
+  bottom: 100px;
+  font-size: 3em;
+  left: 40%; }
 
 #b {
   width: 100px;
