@@ -2,12 +2,17 @@ let isOn = false;
 let notePlaying = false;
 let isStrict = false;
 const notes = ['f', 'g', 'a', 'b'];
-const keyColors= ['tomato','dodgerblue','lightseagreen','goldenrod']
+const keyColors = ['tomato', 'dodgerblue', 'lightseagreen', 'goldenrod']
 let sequence = [];
 let guessSequence = [];
 
 window.onload = function() {
   gameInit();
+}
+
+function resetGame() {
+  sequence = [];
+  $('.scoreboard').text('00');
 }
 
 function gameInit() {
@@ -17,13 +22,16 @@ function gameInit() {
     if (onOff === 'Off') {
       $('.on-off button').text('On');
       $('.on-off button').css('background', 'lightseagreen');
-      playSequence();
+      addtoSequence();
     } else {
       $('.on-off button').text('Off');
       $('.on-off button').css({
         background: 'yellow',
         color: 'black'
       });
+      // reset scoreboard and sequence
+      resetGame();
+
     }
   })
   $('.strict-mode button').click(function() {
@@ -41,30 +49,45 @@ function gameInit() {
     }
   })
 }
+let idx = 0;
+let guessIdx = 0;
 
+function playSequence(note) {
+  // for(var i=0; i<sequence.length; i++) {
+  // const randomNote = notes[randomNum];
+  const audio = document.querySelector(`audio[data-key=${note}]`);
+  audio.play();
+  notePlaying = true;
+  $('#' + note).css('background', 'lightseagreen');
+  idx++;
+  audio.addEventListener("ended", function() {
+    audio.currentTime = 0;
+    console.log("ended");
+    $('#' + note).css('background', 'none');
+    notePlaying = false;
+  });
+  if (idx >= sequence.length) {
+    guessIdx = 0;
+    return;
 
+  }
+  // else
+  setTimeout(() => {
+    playSequence(sequence[idx]);
+  }, 1100)
+}
 
-function playSequence() {
+function addtoSequence() {
   if (!notePlaying) {
     const randomNum = Math.floor(Math.random() * notes.length);
     sequence.push(notes[randomNum]);
     console.log(sequence);
-    const randomNote = notes[randomNum];
-    const audio = document.querySelector(`audio[data-key=${randomNote}]`);
-    audio.play();
-    notePlaying = true;
+    idx = 0;
+    playSequence(sequence[0]);
     let scoreboard = Number(document.querySelector('.scoreboard').innerText);
     scoreboard += 1;
     $('.scoreboard').text(scoreboard);
-
-    $('#'+randomNote).css('background', keyColors[randomNum]);
     // change key playing's color
-    audio.addEventListener("ended", function(){
-     audio.currentTime = 0;
-     console.log("ended");
-     $('#'+randomNote).css('background', 'none');
-     notePlaying = false;
-    });
   }
   console.log();
 }
@@ -72,28 +95,30 @@ function playSequence() {
 function compareGuess(note) {
   console.log('user guessed', note);
   guessSequence.push(note);
-  for (let i = 0; i < sequence.length; i++) {
-    if (sequence[i] === guessSequence[i]) {
-      return true;
-    } else {
-      return false;
-    }
+  if (sequence[guessIdx] === note) {
+    // guessIdx++;
+    return true;
+  } else {
+    return false;
   }
 }
 
 function wrongAnswer() {
   const audio = document.querySelector(`audio[data-key="wrongAnswer"]`);
   audio.play();
+  guessIdx = 0;
+  // replay sequence if easy mode
 }
 
 function continueGame() {
-  setTimeout(playSequence,2500);
+  guessIdx = 0;
+  setTimeout(addtoSequence, 1500);
 }
 
 
 $(`.key[data-key="f"]`).mousedown(function() {
   // user is guessing the sequence
-  console.log('User guess:');
+  console.log('User guess: f');
   // compare with sequence
   const ok = compareGuess("f");
   if (!ok) {
@@ -102,14 +127,16 @@ $(`.key[data-key="f"]`).mousedown(function() {
   }
   const audio = document.querySelector(`audio[data-key="f"]`);
   audio.play();
-    $('#f').css('background', keyColors[0]);
-    audio.addEventListener("ended", function(){
-     audio.currentTime = 0;
-     console.log("ended user guess");
-     $('#f').css('background', 'none');
-     notePlaying = false;
-     continueGame();
-    });
+  $('#f').css('background', keyColors[0]);
+  audio.addEventListener("ended", function() {
+    audio.currentTime = 0;
+    console.log("ended user guess");
+    $('#f').css('background', 'none');
+    notePlaying = false;
+    // guessIdx++;
+    if (guessIdx + 1 >= guessSequence.length)
+    continueGame();
+  });
 });
 
 // $("#f").mouseout(function() {
@@ -118,7 +145,7 @@ $(`.key[data-key="f"]`).mousedown(function() {
 
 $("#g").mousedown(function() {
   // user is guessing the sequence
-  console.log('User guess:');
+  console.log('User guess:g');
   // compare with sequence
   const ok = compareGuess("g");
   if (!ok) {
@@ -129,12 +156,14 @@ $("#g").mousedown(function() {
   const audio = document.querySelector(`audio[data-key="g"]`);
   audio.play();
   $('#g').css('background', keyColors[1]);
-  audio.addEventListener("ended", function(){
-   audio.currentTime = 0;
-   console.log("ended user guess");
-   $('#g').css('background', 'none');
-   notePlaying = false;
-   continueGame();
+  audio.addEventListener("ended", function() {
+    audio.currentTime = 0;
+    console.log("ended user guess");
+    $('#g').css('background', 'none');
+    notePlaying = false;
+    // guessIdx++;
+    if (guessIdx + 1 >= guessSequence.length)
+    continueGame();
   });
 });
 
@@ -151,12 +180,14 @@ $("#a").mousedown(function() {
   const audio = document.querySelector(`audio[data-key="a"]`);
   audio.play();
   $('#a').css('background', keyColors[2]);
-  audio.addEventListener("ended", function(){
-   audio.currentTime = 0;
-   console.log("ended user guess");
-   $('#f').css('background', 'none');
-   notePlaying = false;
-   continueGame();
+  audio.addEventListener("ended", function() {
+    audio.currentTime = 0;
+    console.log("ended user guess");
+    $('#f').css('background', 'none');
+    notePlaying = false;
+    // guessIdx++;
+    if (guessIdx + 1 >= guessSequence.length)
+    continueGame();
   });
 });
 
@@ -173,11 +204,13 @@ $("#b").mousedown(function() {
   const audio = document.querySelector(`audio[data-key="b"]`);
   audio.play();
   $('#b').css('background', keyColors[3]);
-  audio.addEventListener("ended", function(){
-   audio.currentTime = 0;
-   console.log("ended user guess");
-   $('#b').css('background', 'none');
-   notePlaying = false;
-   continueGame();
+  audio.addEventListener("ended", function() {
+    audio.currentTime = 0;
+    console.log("ended user guess");
+    $('#b').css('background', 'none');
+    notePlaying = false;
+    // guessIdx++;
+    if (guessIdx + 1 >= guessSequence.length)
+    continueGame();
   });
 });
