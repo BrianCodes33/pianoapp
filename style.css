@@ -51,9 +51,7 @@ h1 {
   display: -o-flex;
   display: flex;
   justify-content: center;
-  align-items: center; }
-
-.scoreboard > span {
+  align-items: center;
   color: #fff;
   font-size: 2em;
   margin: 5px; }

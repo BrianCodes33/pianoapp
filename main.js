@@ -1,8 +1,14 @@
 let isOn = false;
+let notePlaying = false;
 let isStrict = false;
 const notes = ['f', 'g', 'a', 'b'];
+const keyColors= ['tomato','dodgerblue','lightseagreen','goldenrod']
 let sequence = [];
 let guessSequence = [];
+
+window.onload = function() {
+  gameInit();
+}
 
 function gameInit() {
   console.log('game init');
@@ -35,21 +41,32 @@ function gameInit() {
     }
   })
 }
-gameInit();
 
-var notePlaying = false;
+
 
 function playSequence() {
   if (!notePlaying) {
     const randomNum = Math.floor(Math.random() * notes.length);
-    console.log(randomNum);
     sequence.push(notes[randomNum]);
+    console.log(sequence);
     const randomNote = notes[randomNum];
     const audio = document.querySelector(`audio[data-key=${randomNote}]`);
     audio.play();
     notePlaying = true;
-  }
+    let scoreboard = Number(document.querySelector('.scoreboard').innerText);
+    scoreboard += 1;
+    $('.scoreboard').text(scoreboard);
 
+    $('#'+randomNote).css('background', keyColors[randomNum]);
+    // change key playing's color
+    audio.addEventListener("ended", function(){
+     audio.currentTime = 0;
+     console.log("ended");
+     $('#'+randomNote).css('background', 'none');
+     notePlaying = false;
+    });
+  }
+  console.log();
 }
 
 function compareGuess(note) {
@@ -64,59 +81,103 @@ function compareGuess(note) {
   }
 }
 
+function wrongAnswer() {
+  const audio = document.querySelector(`audio[data-key="wrongAnswer"]`);
+  audio.play();
+}
+
+function continueGame() {
+  setTimeout(playSequence,2500);
+}
+
+
 $(`.key[data-key="f"]`).mousedown(function() {
   // user is guessing the sequence
   console.log('User guess:');
   // compare with sequence
   const ok = compareGuess("f");
-  ok
+  if (!ok) {
+    wrongAnswer();
+    return;
+  }
   const audio = document.querySelector(`audio[data-key="f"]`);
   audio.play();
-  $('#f').css('background', 'tomato');
+    $('#f').css('background', keyColors[0]);
+    audio.addEventListener("ended", function(){
+     audio.currentTime = 0;
+     console.log("ended user guess");
+     $('#f').css('background', 'none');
+     notePlaying = false;
+     continueGame();
+    });
 });
 
-$("#f").mouseout(function() {
-  $('#f').css('background', 'none');
-});
+// $("#f").mouseout(function() {
+//   $('#f').css('background', 'none');
+// });
 
 $("#g").mousedown(function() {
   // user is guessing the sequence
   console.log('User guess:');
   // compare with sequence
-  compareGuess("g");
+  const ok = compareGuess("g");
+  if (!ok) {
+    wrongAnswer();
+    return;
+  }
+
   const audio = document.querySelector(`audio[data-key="g"]`);
   audio.play();
-  $('#g').css('background', 'dodgerblue');
+  $('#g').css('background', keyColors[1]);
+  audio.addEventListener("ended", function(){
+   audio.currentTime = 0;
+   console.log("ended user guess");
+   $('#g').css('background', 'none');
+   notePlaying = false;
+   continueGame();
+  });
 });
 
-$("#g").mouseout(function() {
-  $('#g').css('background', 'none');
-});
 
 $("#a").mousedown(function() {
   // user is guessing the sequence
   console.log('User guess:');
   // compare with sequence
-  compareGuess("a");
+  const ok = compareGuess("a");
+  if (!ok) {
+    wrongAnswer();
+    return;
+  }
   const audio = document.querySelector(`audio[data-key="a"]`);
   audio.play();
-  $('#a').css('background', 'lightseagreen');
+  $('#a').css('background', keyColors[2]);
+  audio.addEventListener("ended", function(){
+   audio.currentTime = 0;
+   console.log("ended user guess");
+   $('#f').css('background', 'none');
+   notePlaying = false;
+   continueGame();
+  });
 });
 
-$("#a").mouseout(function() {
-  $('#a').css('background', 'none');
-});
 
 $("#b").mousedown(function() {
   // user is guessing the sequence
   console.log('User guess:');
   // compare with sequence
-  compareGuess("b");
+  const ok = compareGuess("b");
+  if (!ok) {
+    wrongAnswer();
+    return;
+  }
   const audio = document.querySelector(`audio[data-key="b"]`);
   audio.play();
-  $('#b').css('background', 'goldenrod');
-});
-
-$("#b").mouseout(function() {
-  $('#b').css('background', 'none');
+  $('#b').css('background', keyColors[3]);
+  audio.addEventListener("ended", function(){
+   audio.currentTime = 0;
+   console.log("ended user guess");
+   $('#b').css('background', 'none');
+   notePlaying = false;
+   continueGame();
+  });
 });

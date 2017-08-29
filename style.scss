@@ -54,7 +54,6 @@ h1 {
 .scoreboard {
   width: 60px;
   background: #000;
-  // text-align: center;
   border-radius: 50%;
   height: 60px;
   display: -webkit-flex;
@@ -64,9 +63,6 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.scoreboard > span {
   color: #fff;
   font-size: 2em;
   margin: 5px;
