@@ -5,6 +5,8 @@ const notes = ['f', 'g', 'a', 'b'];
 const keyColors = ['tomato', 'dodgerblue', 'lightseagreen', 'goldenrod']
 let sequence = [];
 let guessSequence = [];
+let idx = 0;
+let guessIdx = 0;
 
 window.onload = function() {
   gameInit();
@@ -49,8 +51,6 @@ function gameInit() {
     }
   })
 }
-let idx = 0;
-let guessIdx = 0;
 
 function playSequence(note) {
   // for(var i=0; i<sequence.length; i++) {
@@ -58,7 +58,7 @@ function playSequence(note) {
   const audio = document.querySelector(`audio[data-key=${note}]`);
   audio.play();
   notePlaying = true;
-  $('#' + note).css('background', 'lightseagreen');
+  $('#' + note).css('background', keyColors[notes.indexOf(note)]);
   idx++;
   audio.addEventListener("ended", function() {
     audio.currentTime = 0;
@@ -74,7 +74,7 @@ function playSequence(note) {
   // else
   setTimeout(() => {
     playSequence(sequence[idx]);
-  }, 1100)
+  }, 800)
 }
 
 function addtoSequence() {
@@ -89,14 +89,13 @@ function addtoSequence() {
     $('.scoreboard').text(scoreboard);
     // change key playing's color
   }
-  console.log();
 }
 
 function compareGuess(note) {
   console.log('user guessed', note);
   guessSequence.push(note);
   if (sequence[guessIdx] === note) {
-    // guessIdx++;
+    guessIdx++;
     return true;
   } else {
     return false;
@@ -107,12 +106,16 @@ function wrongAnswer() {
   const audio = document.querySelector(`audio[data-key="wrongAnswer"]`);
   audio.play();
   guessIdx = 0;
+  isStrict ? resetGame() : playSequence();
   // replay sequence if easy mode
 }
 
 function continueGame() {
-  guessIdx = 0;
-  setTimeout(addtoSequence, 1500);
+  setTimeout(function() {
+    guessIdx = 0;
+    guessSequence = [];
+    addtoSequence();
+  }, 900);
 }
 
 
@@ -134,8 +137,9 @@ $(`.key[data-key="f"]`).mousedown(function() {
     $('#f').css('background', 'none');
     notePlaying = false;
     // guessIdx++;
-    if (guessIdx + 1 >= guessSequence.length)
-    continueGame();
+    if (guessIdx >= sequence.length) {
+      continueGame();
+    }
   });
 });
 
@@ -162,8 +166,9 @@ $("#g").mousedown(function() {
     $('#g').css('background', 'none');
     notePlaying = false;
     // guessIdx++;
-    if (guessIdx + 1 >= guessSequence.length)
-    continueGame();
+    if (guessIdx >= sequence.length) {
+      continueGame();
+    }
   });
 });
 
@@ -186,8 +191,9 @@ $("#a").mousedown(function() {
     $('#f').css('background', 'none');
     notePlaying = false;
     // guessIdx++;
-    if (guessIdx + 1 >= guessSequence.length)
-    continueGame();
+    if (guessIdx >= sequence.length) {
+      continueGame();
+    }
   });
 });
 
@@ -210,7 +216,8 @@ $("#b").mousedown(function() {
     $('#b').css('background', 'none');
     notePlaying = false;
     // guessIdx++;
-    if (guessIdx + 1 >= guessSequence.length)
-    continueGame();
+    if (guessIdx >= sequence.length) {
+      continueGame();
+    }
   });
 });
