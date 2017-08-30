@@ -28,7 +28,7 @@ function gameInit() {
     } else {
       $('.on-off button').text('Off');
       $('.on-off button').css({
-        background: 'yellow',
+        background: 'gray',
         color: 'black'
       });
       // reset scoreboard and sequence
@@ -42,12 +42,14 @@ function gameInit() {
     if (strictMode === 'Strict Mode') {
       $('.strict-mode button').text('Easy Mode');
       $('.strict-mode button').css('background', 'lightseagreen');
+      isStrict = false;
     } else {
       $('.strict-mode button').text('Strict Mode');
       $('.strict-mode button').css({
-        background: 'yellow',
+        background: 'gray',
         color: 'black'
       });
+      isStrict = true;
     }
   })
 }
@@ -106,8 +108,12 @@ function wrongAnswer() {
   const audio = document.querySelector(`audio[data-key="wrongAnswer"]`);
   audio.play();
   guessIdx = 0;
-  isStrict ? resetGame() : playSequence();
-  // replay sequence if easy mode
+  if (isStrict) {
+    resetGame()
+  } else {
+    idx = 0;
+    playSequence(sequence[0]);
+  }
 }
 
 function continueGame() {
